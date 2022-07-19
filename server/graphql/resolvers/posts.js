@@ -39,5 +39,19 @@ module.exports = {
 
             return newPost
         },
+
+        async deletePost(parent, { postId }, context) {
+            const user = checkAuth(context)
+            const post = await Post.findById(postId)
+
+            if (!post) return 'Post not found'
+
+            if (user.id !== post?.userId.toString()) {
+                return 'You are not authorized to delete this post'
+            }
+
+            await Post.findByIdAndDelete(postId)
+            return 'Post deleted'
+        },
     },
 }
