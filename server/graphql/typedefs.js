@@ -1,5 +1,6 @@
 const { gql } = require('apollo-server')
 
+//typeDefs define what are the returnable values from the queries
 module.exports = gql`
     type User {
         _id: ID!
@@ -35,6 +36,7 @@ module.exports = gql`
     }
 
     type Mutation {
-        register(registerInput: RegisterInput): User
+        register(registerInput: RegisterInput): User!
+        login(email: String!, password: String!): User!
     }
 `

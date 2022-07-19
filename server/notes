@@ -2,3 +2,5 @@
 -   typeDefs is where you define what type of value should a resolver return
 -   Mutation is for changing.posting data
 -   Query is for fetching data
+-   parent is from returned value from the resolver
+-   args(second param) is the arguments passed to the resolver, located at typeDefs

@@ -10,10 +10,25 @@ const validateEmail = (email) => {
 
 module.exports = {
     Mutation: {
-        //parent is from returned value from the resolver
-        //before calling this resolver, just like how middleware works
+        async login(_, { email, password }) {
+            const user = await User.findOne({ email })
+            if (!user) {
+                throw new Error('User not found')
+            }
+            const isValid = await bycrypt.compare(password, user.password)
+            if (!isValid) {
+                throw new Error('Invalid password')
+            }
+            const token = jwt.sign(
+                { id: user._id, email: user.email },
+                'secret'
+            )
+            return {
+                email: user.email,
+                token,
+            }
+        },
 
-        //args(second param) is the arguments passed to the resolver, located at typeDefs
         async register(
             parent,
             { registerInput: { username, password, confirmPassword, email } },
