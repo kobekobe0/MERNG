@@ -6,7 +6,11 @@ const PORT = process.env.PORT || 3000
 const typeDefs = require('./graphql/typedefs')
 const resolvers = require('./graphql/resolvers')
 
-const server = new ApolloServer({ typeDefs, resolvers })
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => ({ req }),
+})
 
 mongoose
     .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })

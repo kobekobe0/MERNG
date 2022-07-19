@@ -3,4 +3,18 @@
 -   Mutation is for changing.posting data
 -   Query is for fetching data
 -   parent is from returned value from the resolver
+-   context is for accessing the request, it contains headers, req, etc. just like in rest
 -   args(second param) is the arguments passed to the resolver, located at typeDefs
+
+A query to fetch all the pets from the app might look like this:
+
+`query GetAllPets { pets { name petType } }`
+And then a mutation that adds a new pet might look a little something like this:
+
+`mutation AddNewPet ($name: String!, $petType: PetType) { addPet(name: $name, petType: $petType) { id name petType } }`
+The AddNewPet mutation expects values for the name and petType variables. The request data for this mutation holds the following shape.
+
+`{ "name": "Rover", "petType": "DOG" }`
+In the mutation response, you could expect to see the following result.
+
+`{ "data": { "addPet": { "id": 1 "name": "Rover", "petType": "DOG" } } }`
