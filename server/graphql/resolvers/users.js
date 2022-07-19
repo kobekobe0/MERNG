@@ -9,6 +9,25 @@ const validateEmail = (email) => {
 }
 
 module.exports = {
+    Query: {
+        async getUsers() {
+            try {
+                const users = await User.find()
+                return users
+            } catch (err) {
+                throw new Error(err)
+            }
+        },
+
+        async getUser(_, { id }) {
+            try {
+                const user = await User.findById(id)
+                return user
+            } catch (err) {
+                throw new Error(err)
+            }
+        },
+    },
     Mutation: {
         async login(_, { email, password }) {
             const user = await User.findOne({ email })
@@ -21,7 +40,7 @@ module.exports = {
             }
             const token = jwt.sign(
                 { id: user._id, email: user.email },
-                'secret'
+                'secretKey'
             )
             return {
                 email: user.email,
