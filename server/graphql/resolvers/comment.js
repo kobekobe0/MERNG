@@ -45,15 +45,20 @@ module.exports = {
                     body: body,
                 })
 
+                await post.updateOne({
+                    $push: { comments: newComment._id },
+                })
+
                 console.log(user)
                 toReturn.id = newComment._id
                 toReturn.body = newComment.body
                 toReturn.createdAt = newComment.createdAt
                 toReturn.user = user
+                toReturn.user._id = user.id
                 toReturn.postId = newComment.postId
                 toReturn.likes = newComment.likes
 
-                console.log(newComment)
+                console.log(toReturn.user)
                 return toReturn
             } catch (err) {
                 throw new Error(`Something went wrong: ${err}`)
@@ -73,6 +78,11 @@ module.exports = {
                     throw new Error(
                         'You are not authorized to delete this comment'
                     )
+                await post.updateOne({
+                    $pull: {
+                        comments: commentId,
+                    },
+                })
 
                 await Comment.findByIdAndDelete(commentId)
                 return 'Comment deleted'
@@ -84,6 +94,7 @@ module.exports = {
             try {
                 const user = checkAuth(context)
                 const post = await Post.findById(postId)
+                let toReturn = {}
                 if (!post) throw new Error('Post not found')
 
                 const comment = await Comment.findById(commentId)
@@ -103,8 +114,16 @@ module.exports = {
                     },
                     { new: true }
                 )
+                toReturn.id = updated._id
+                toReturn.body = updated.body
+                toReturn.createdAt = updated.createdAt
+                toReturn.user = user
+                toReturn.user._id = user.id
+                toReturn.postId = updated.postId
+                toReturn.likes = updated.likes
+
                 console.log(updated)
-                return updated
+                return toReturn
             } catch (err) {
                 throw new Error('Something went wrong: ' + err)
             }

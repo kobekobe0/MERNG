@@ -30,8 +30,8 @@ module.exports = gql`
         userId: String!
         body: String!
         createdAt: String!
-        comments: [Comment]!
-        likes: [Like]!
+        comments: [ID]!
+        likes: [String]!
     }
 
     input RegisterInput {

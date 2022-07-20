@@ -2,14 +2,14 @@ const { ApolloServer } = require('apollo-server')
 const mongoose = require('mongoose')
 const uri =
     'mongodb+srv://kobekoblanca:Chixxmagnet00@cluster0.kcbgjsu.mongodb.net/MERNG?retryWrites=true&w=majority'
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 const typeDefs = require('./graphql/typedefs')
 const resolvers = require('./graphql/resolvers')
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => ({ req }),
+    context: ({ req }) => ({ req }), //context is for accessing headers
 })
 
 mongoose

@@ -8,11 +8,8 @@ module.exports = {
             let toReturn = []
             const posts = await Post.find()
             console.log(posts)
-            for (let i = 0; i < posts.length; i++) {
-                posts[i].comments = await Comment.find({ postId: posts[i]._id })
-                toReturn.push(posts[i])
-            }
-            return toReturn
+
+            return posts
         },
         async getPost(parent, { postId }) {
             try {
