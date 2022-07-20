@@ -39,7 +39,7 @@ module.exports = {
                 throw new Error('Invalid password')
             }
             const token = jwt.sign(
-                { id: user._id, email: user.email },
+                { id: user._id, email: user.email, username: user.username },
                 'secretKey'
             )
             return {
