@@ -71,5 +71,29 @@ module.exports = {
             await Post.findByIdAndDelete(postId)
             return 'Post deleted'
         },
+
+        async likePost(parent, { postId }, context) {
+            const user = checkAuth(context)
+            if (user) {
+                const post = await Post.findById(postId)
+                if (post) {
+                    const likes = post.likes
+                    if (likes.includes(user.id)) {
+                        await Post.findByIdAndUpdate(postId, {
+                            $pull: {
+                                likes: user.id,
+                            },
+                        })
+                        return 'Post unliked'
+                    }
+                    await Post.findByIdAndUpdate(postId, {
+                        $push: {
+                            likes: user.id,
+                        },
+                    })
+                    return 'Post liked'
+                }
+            }
+        },
     },
 }
