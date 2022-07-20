@@ -14,8 +14,6 @@ module.exports = (context) => {
         console.log(typeof token)
 
         const decoded = jwt.verify(token, secretKey)
-        console.log('puta')
-
         return decoded //returns userId(id) and email, where userId will be placed in the post.userId field
     } catch (err) {
         throw new AuthenticationError('Invalid token')

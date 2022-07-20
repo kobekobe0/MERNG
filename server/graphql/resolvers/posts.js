@@ -1,21 +1,34 @@
 const Post = require('../../models/post.model')
+const Comment = require('../../models/comment.model')
 const checkAuth = require('../../utils/checkAuth')
 
 module.exports = {
     Query: {
         async getPosts() {
+            let toReturn = []
             const posts = await Post.find()
-            return posts
+            console.log(posts)
+            for (let i = 0; i < posts.length; i++) {
+                posts[i].comments = await Comment.find({ postId: posts[i]._id })
+                toReturn.push(posts[i])
+            }
+            return toReturn
         },
         async getPost(parent, { postId }) {
             try {
                 const post = await Post.findById(postId)
-                if (post)
-                    return {
-                        id: post._id,
-                        userId: post.userId,
-                        body: post.body,
-                    }
+                let toReturn = {}
+                if (post) {
+                    toReturn.id = post._id
+                    toReturn.title = post.title
+                    toReturn.body = post.body
+                    toReturn.createdAt = post.createdAt
+                    toReturn.userId = post.userId
+                    toReturn.likes = post.likes //awat Likes.find({postId: post._id})
+                    toReturn.comments = await Comment.find({ postId: post._id })
+                    return toReturn
+                }
+
                 throw new Error('Post not found')
             } catch (err) {
                 throw new Error(err)
@@ -31,13 +44,18 @@ module.exports = {
         async createPost(parent, { body }, context) {
             const user = checkAuth(context)
             console.log(user.id)
-
-            const newPost = Post.create({
+            let toReturn = {}
+            const newPost = await Post.create({
                 body,
                 userId: user.id,
             })
-
-            return newPost
+            toReturn.id = newPost._id
+            toReturn.body = newPost.body
+            toReturn.createdAt = newPost.createdAt
+            toReturn.userId = newPost.userId
+            toReturn.likes = []
+            toReturn.comments = []
+            return toReturn
         },
 
         async deletePost(parent, { postId }, context) {
