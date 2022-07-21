@@ -1,12 +1,12 @@
 const Post = require('../../models/post.model')
 const Comment = require('../../models/comment.model')
 const checkAuth = require('../../utils/checkAuth')
-
+const ObjectId = require('mongoose').Types.ObjectId
 module.exports = {
     Query: {
         async getPosts() {
             let toReturn = []
-            const posts = await Post.find()
+            const posts = await Post.find().sort({ createdAt: -1 })
             console.log(posts)
 
             return posts
@@ -22,7 +22,7 @@ module.exports = {
                     toReturn.createdAt = post.createdAt
                     toReturn.userId = post.userId
                     toReturn.likes = post.likes //awat Likes.find({postId: post._id})
-                    toReturn.comments = await Comment.find({ postId: post._id })
+                    toReturn.comments = post.comments //await Comments.find({postId: post._id})
                     return toReturn
                 }
 
@@ -40,7 +40,7 @@ module.exports = {
     Mutation: {
         async createPost(parent, { body }, context) {
             const user = checkAuth(context)
-            console.log(user.id)
+            console.log('USER, ' + user.id)
             let toReturn = {}
             const newPost = await Post.create({
                 body,

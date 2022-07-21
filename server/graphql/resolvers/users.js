@@ -50,7 +50,7 @@ module.exports = {
 
         async register(
             parent,
-            { registerInput: { username, password, confirmPassword, email } },
+            { registerInput: { username, email, password, confirmPassword } },
             context,
             info
         ) {
