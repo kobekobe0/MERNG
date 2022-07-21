@@ -1,24 +1,29 @@
+import Navbar from './components/Navbar'
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
+import Register from './components/Register'
+import Login from './components/Login'
+import Home from './components/Home'
+import Landing from './components/Landing'
+import Post from './components/Post'
+import { PostsProvider } from './context/posts.context'
+
 function App() {
     return (
-        <div className="App 2xl:mx-96   xl:mx-80   lg:mx-72 md:mx-12">
-            <div className="flex w-full border-b-4 justify-center items-center">
-                <div className="flex w-full  justify-between px-7 font-medium">
-                    <div className="p-5 cursor-pointer">Home</div>
-                    <div className="flex">
-                        <ul className="flex ">
-                            <li className="p-5 cursor-pointer">Sign in</li>
-                            <li className="p-5 cursor-pointer">Register</li>
-                        </ul>
-                    </div>
-                </div>
+        <PostsProvider>
+            <div className="App 2xl:mx-96   xl:mx-full mx-5">
+                <Router>
+                    <Navbar />
+                    <Routes>
+                        <Route exact path="/register" element={<Register />} />
+                        <Route exact path="/login" element={<Login />} />
+                        <Route exact path="/" element={<Landing />}>
+                            <Route path="/" element={<Home />} />
+                            <Route exact path="/post/:id" element={<Post />} />
+                        </Route>
+                    </Routes>
+                </Router>
             </div>
-
-            <div className="h-screen bg-slate-100 mt-5">
-                <div>
-                    <h1>Heading</h1>
-                </div>
-            </div>
-        </div>
+        </PostsProvider>
     )
 }
 
