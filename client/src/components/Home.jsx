@@ -34,6 +34,7 @@ function Home() {
 
     useEffect(() => {
         console.log(loggedin)
+        console.log(posts)
     }, [loggedin])
 
     useEffect(() => {
@@ -41,8 +42,6 @@ function Home() {
     }, [data])
 
     //todo
-    //comment on a post
-    //like a post
     //delete a post
     //conditional for those who are logged in
 
@@ -50,13 +49,14 @@ function Home() {
     if (error) return <div>Error!</div>
 
     return (
-        <div className="w-full ">
+        <div className="w-full flex flex-col items-center ">
+            <h1 className="lg:block text-2xl mt-3 ">Recent Posts</h1>
             <div className="grid xl:grid-cols-3 lg:grid-cols-2 auto-rows-auto gap-7 mt-6">
                 {loggedin ? <CreatePost /> : null}
-
-                {posts?.map((post) => (
-                    <PostCard key={post.id} post={post} />
-                ))}
+                {posts?.map((post) => {
+                    console.log(post)
+                    return <PostCard key={post.id} post={post} />
+                })}
             </div>
         </div>
     )

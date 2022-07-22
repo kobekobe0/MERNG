@@ -8,7 +8,8 @@ function Navbar() {
     const [hasUser, setHasUser] = useState(false)
     const { loggedin, setLoggedin } = useContext(PostsContext)
     useEffect(() => {
-        if (loggedin) {
+        console.log(loggedin)
+        if (localStorage.getItem('token')) {
             setHasUser(true)
         } else {
             setHasUser(false)
@@ -25,7 +26,14 @@ function Navbar() {
         <div className="flex w-full border-b-4 justify-center items-center">
             <div className="flex w-full  justify-between px-7 font-medium">
                 <div className="p-5 cursor-pointer transition ease-in-out hover:text-slate-400">
-                    <Link to="/">Home</Link>
+                    <Link to="/" className="text-sky-900 text-xl">
+                        Twitter,{' '}
+                        <span className="text-sm font-light">
+                            but{' '}
+                            <span className="opacity-60 text-xs">(use)</span>
+                            less
+                        </span>
+                    </Link>
                 </div>
                 <div className="flex">
                     <ul className="flex ">

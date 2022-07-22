@@ -88,8 +88,11 @@ module.exports = {
                             likes: user.id,
                         },
                     })
+                    //console.log(user)
                     return 'Post liked'
                 }
+            } else {
+                return 'You are not authorized to like this post'
             }
         },
     },

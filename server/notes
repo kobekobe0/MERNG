@@ -18,3 +18,8 @@ The AddNewPet mutation expects values for the name and petType variables. The re
 In the mutation response, you could expect to see the following result.
 
 `{ "data": { "addPet": { "id": 1 "name": "Rover", "petType": "DOG" } } }`
+
+-BUGS-
+
+FE
+-reducers doesn't really delete post/comment in the array state in the context, when the dispatch is called it only filters the current state(which is set on page load). What I would do is every time dispatcher is called I will set the current state to a appropriate state in the context.

@@ -50,7 +50,7 @@ function Register() {
             history('/login')
         })
     }
-
+    if (error) console.log(error.message.split(','))
     if (loading)
         return (
             <div className="flex justify-center mt-5">
@@ -66,7 +66,11 @@ function Register() {
                 onSubmit={onSubmit}
             >
                 {error ? (
-                    <div className="text-red-500">{error.message}</div>
+                    <div className="text-red-500">
+                        {error.message.split(',').map((err) => (
+                            <p key={err}>{err}</p>
+                        ))}
+                    </div>
                 ) : null}
                 <label htmlFor="username" className="text-xs pt-3">
                     Username

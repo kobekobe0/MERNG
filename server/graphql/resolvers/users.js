@@ -58,12 +58,23 @@ module.exports = {
             const checkUser = await User.findOne({ email })
 
             if (checkUser === null) {
+                let errs = {}
+
+                if (!username) {
+                    errs.username = 'Username is required'
+                }
+
                 if (validateEmail(email) === false) {
-                    throw new Error('Invalid email')
+                    errs.email = 'Invalid email'
                 }
 
                 if (password !== confirmPassword) {
-                    throw new Error('Passwords do not match')
+                    errs.password = 'Passwords do not match'
+                }
+
+                if (Object.keys(errs).length > 0) {
+                    console.log(Object.keys(errs))
+                    throw new Error(Object.values(errs))
                 }
 
                 password = await bycrypt.hash(password, salt)

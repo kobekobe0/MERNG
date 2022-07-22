@@ -8,7 +8,7 @@ module.exports = {
             try {
                 const comments = Comment.find({
                     postId: postId,
-                })
+                }).sort({ createdAt: -1 })
 
                 if (comments) return comments
 
@@ -39,6 +39,8 @@ module.exports = {
                         'You are not authorized to create a comment'
                     )
 
+                console.log(user)
+
                 const newComment = await Comment.create({
                     postId: postId,
                     userId: user.id,
@@ -54,7 +56,7 @@ module.exports = {
                 toReturn.body = newComment.body
                 toReturn.createdAt = newComment.createdAt
                 toReturn.user = user
-                toReturn.user._id = user.id
+                toReturn.userId = user.id
                 toReturn.postId = newComment.postId
                 toReturn.likes = newComment.likes
 
@@ -65,6 +67,8 @@ module.exports = {
             }
         },
         async deleteComment(parent, { postId, commentId }, context) {
+            console.log(postId)
+            console.log(commentId)
             try {
                 const user = checkAuth(context)
                 const post = await Post.findById(postId)
@@ -83,10 +87,15 @@ module.exports = {
                         comments: commentId,
                     },
                 })
-
+                await Post.findByIdAndUpdate(postId, {
+                    $pull: {
+                        comments: commentId,
+                    },
+                })
                 await Comment.findByIdAndDelete(commentId)
                 return 'Comment deleted'
             } catch (error) {
+                console.log(error)
                 throw new Error(`Something went wrong: ${error}`)
             }
         },
