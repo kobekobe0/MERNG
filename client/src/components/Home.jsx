@@ -42,7 +42,6 @@ function Home() {
     }, [data])
 
     //todo
-    //delete a post
     //conditional for those who are logged in
 
     if (loading) return <div>Loading...</div>
@@ -51,10 +50,9 @@ function Home() {
     return (
         <div className="w-full flex flex-col items-center ">
             <h1 className="lg:block text-2xl mt-3 ">Recent Posts</h1>
-            <div className="grid xl:grid-cols-3 lg:grid-cols-2 auto-rows-auto gap-7 mt-6">
+            <div className="grid xl:grid-cols-3 lg:grid-cols-2 w-full auto-rows-auto gap-7 mt-6">
                 {loggedin ? <CreatePost /> : null}
                 {posts?.map((post) => {
-                    console.log(post)
                     return <PostCard key={post.id} post={post} />
                 })}
             </div>
