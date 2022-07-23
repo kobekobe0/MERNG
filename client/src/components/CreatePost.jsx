@@ -28,7 +28,7 @@ function CreatePost() {
             },
         }).then((res) => {
             console.log(res.data)
-
+            setBody('')
             dispatch({ type: 'ADD_POST', payload: res.data.createPost })
         })
     }
@@ -43,6 +43,7 @@ function CreatePost() {
                 name="post"
                 id="post"
                 className="border p-2 "
+                value={body}
                 onChange={(e) => setBody(e.target.value)}
             />
             <button

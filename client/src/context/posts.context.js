@@ -11,7 +11,8 @@ const reducer = (state, action) => {
         case 'ADD_POST':
             console.log(state)
             console.log(action.payload)
-            return [action.payload, ...state]
+            state = [action.payload, ...state]
+            return state
         case 'DELETE_POST':
             return state.filter((post) => post.id !== action.payload)
         case 'LIKE_POST':

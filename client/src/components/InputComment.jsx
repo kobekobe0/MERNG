@@ -33,7 +33,7 @@ function InputComment({ postId }) {
             },
         }).then((res) => {
             console.log(res.data)
-
+            setBody('')
             commentDispatch({
                 type: 'ADD_COMMENT',
                 payload: res.data.createComment,
@@ -51,6 +51,7 @@ function InputComment({ postId }) {
                         type="text"
                         name="comment"
                         id="comment"
+                        value={body}
                         onChange={(e) => setBody(e.target.value)}
                         className="p-2 w-full border border-r-0 rounded-tl-md rounded-bl-md bg-white"
                     />
